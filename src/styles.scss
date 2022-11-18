@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+// --------------------> MI TEMA
+@use "~@angular/material/theming" as material;
+@use "./app/banner/banner.component.scss-theme.scss" as banner; // 🔥 banner custom green
+@use "sass:map";
+
+// mat-typography-level( font-size, line-height, font-weight, 4to arg seria font-family $font-family: 'Roboto' )
+$ws-typography: material.mat-typography-config(
+   $font-family: "'Teko', sans-serif",
+   $display-4:
+      material.mat-typography-level(95px, 95px, 300, $letter-spacing: -0.05em),
+);
+
+// paso $ws-typography solo si cambio las fonts
+@include material.mat-core(/* $ws-typography */); // es mixin
+
+// fcn mat-palette() -> genera el color default, lighter, darker y text
+$ws-primary: material.mat-palette(material.$mat-cyan, 500, 200, 800);
+$ws-accent: material.mat-palette(material.$mat-pink, A200, A100, A400);
+// @function define-palette($base-palette, $default: 500, $lighter: 100, $darker: 700,
+//   $text: $default) {
+//   $result: map.merge($base-palette, (
+//     default: map.get($base-palette, $default),
+//     lighter: map.get($base-palette, $lighter),
+//     darker: map.get($base-palette, $darker),
+//     text: map.get($base-palette, $text),
+// ...
+//   ));
+
+// EXTRAS
+$ws-success: material.mat-palette(material.$mat-green);
+$ws-info: material.mat-palette(material.$mat-blue);
+
+$ws-theme: material.mat-light-theme(
+   (
+      color: (
+         primary: $ws-primary,
+         accent: $ws-accent,
+      ),
+      typography: $ws-typography,// aca no me la agarra el banner custom :(
+   )
+);
+
+// P' TENER LOS EXTRAS
+$ws-theme: map.deep-merge(
+   $ws-theme,
+   (
+      success: $ws-success,
+      info: $ws-info,
+      color: (
+         success: $ws-success,
+         info: $ws-info,
+      ),
+   )
+);
+
+// @debug $ws-theme;
+
+@include material.angular-material-theme($ws-theme);
+@include banner.app-banner-theme($ws-theme); // 🔥 green
+
+// --------------------> FIN MI TEMA
+
+//
+//
+//
+html,
+body {
+   height: 100%;
+}
+body {
+   margin: 0;
+   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
